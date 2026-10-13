@@ -1,0 +1,247 @@
+2026-10-13 22:03:17 | [INFO    ] | scenarios.py:43 (scenario_zero_division) | Attempting division operation: 100 / 5
+2026-10-13 22:03:17 | [INFO    ] | scenarios.py:46 (scenario_zero_division) | Division succeeded: 100 / 5 = 20.0
+2026-10-13 22:03:17 | [INFO    ] | scenarios.py:43 (scenario_zero_division) | Attempting division operation: 100 / 0
+2026-10-13 22:03:17 | [ERROR   ] | error_logger.py:118 (log_exception) | Failed arithmetic division (100 / 0) - ZeroDivisionError: division by zero
+Traceback Details:
+Traceback (most recent call last):
+  File "/Users/nandankumar/Nandan Prince/scenarios.py", line 45, in scenario_zero_division
+    result = a / b
+             ~~^~~
+ZeroDivisionError: division by zero
+2026-10-13 22:03:17 | [INFO    ] | scenarios.py:59 (scenario_file_not_found) | Attempting to read file from path: 'non_existent_config.json'
+2026-10-13 22:03:17 | [ERROR   ] | error_logger.py:118 (log_exception) | Target file missing: 'non_existent_config.json' - FileNotFoundError: [Errno 2] No such file or directory: 'non_existent_config.json'
+Traceback Details:
+Traceback (most recent call last):
+  File "/Users/nandankumar/Nandan Prince/scenarios.py", line 61, in scenario_file_not_found
+    with open(filepath, "r", encoding="utf-8") as f:
+         ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'non_existent_config.json'
+2026-10-13 22:03:17 | [INFO    ] | scenarios.py:81 (scenario_dictionary_key_error) | Looking up dictionary key: 'server' in dataset with keys ['server', 'port']
+2026-10-13 22:03:17 | [INFO    ] | scenarios.py:84 (scenario_dictionary_key_error) | Retrieved key 'server': prod-east-1
+2026-10-13 22:03:17 | [INFO    ] | scenarios.py:81 (scenario_dictionary_key_error) | Looking up dictionary key: 'api_secret_key' in dataset with keys ['server', 'port']
+2026-10-13 22:03:17 | [ERROR   ] | error_logger.py:118 (log_exception) | Key missing from dictionary. Available keys: ['server', 'port'] - KeyError: 'api_secret_key'
+Traceback Details:
+Traceback (most recent call last):
+  File "/Users/nandankumar/Nandan Prince/scenarios.py", line 83, in scenario_dictionary_key_error
+    val = data[key]
+          ~~~~^^^^^
+KeyError: 'api_secret_key'
+2026-10-13 22:03:17 | [INFO    ] | scenarios.py:97 (scenario_index_out_of_range) | Accessing list item at index: 1 (list length: 3)
+2026-10-13 22:03:17 | [INFO    ] | scenarios.py:100 (scenario_index_out_of_range) | Retrieved item at index 1: banana
+2026-10-13 22:03:17 | [INFO    ] | scenarios.py:97 (scenario_index_out_of_range) | Accessing list item at index: 10 (list length: 3)
+2026-10-13 22:03:17 | [ERROR   ] | error_logger.py:118 (log_exception) | Invalid index 10 accessed on list of size 3 - IndexError: list index out of range
+Traceback Details:
+Traceback (most recent call last):
+  File "/Users/nandankumar/Nandan Prince/scenarios.py", line 99, in scenario_index_out_of_range
+    item = items[index]
+           ~~~~~^^^^^^^
+IndexError: list index out of range
+2026-10-13 22:03:17 | [INFO    ] | scenarios.py:113 (scenario_value_conversion) | Attempting to convert string '12345' into integer.
+2026-10-13 22:03:17 | [INFO    ] | scenarios.py:116 (scenario_value_conversion) | Conversion successful: 12345
+2026-10-13 22:03:17 | [INFO    ] | scenarios.py:113 (scenario_value_conversion) | Attempting to convert string 'NotANumber_XYZ' into integer.
+2026-10-13 22:03:17 | [ERROR   ] | error_logger.py:118 (log_exception) | String to integer cast failed for 'NotANumber_XYZ' - ValueError: invalid literal for int() with base 10: 'NotANumber_XYZ'
+Traceback Details:
+Traceback (most recent call last):
+  File "/Users/nandankumar/Nandan Prince/scenarios.py", line 115, in scenario_value_conversion
+    parsed = int(raw_value)
+ValueError: invalid literal for int() with base 10: 'NotANumber_XYZ'
+2026-10-13 22:03:17 | [INFO    ] | scenarios.py:129 (scenario_type_mismatch) | Attempting addition between type str and float
+2026-10-13 22:03:17 | [ERROR   ] | error_logger.py:118 (log_exception) | Invalid operand types: str + float - TypeError: can only concatenate str (not "float") to str
+Traceback Details:
+Traceback (most recent call last):
+  File "/Users/nandankumar/Nandan Prince/scenarios.py", line 131, in scenario_type_mismatch
+    result = a + b
+             ~~^~~
+TypeError: can only concatenate str (not "float") to str
+2026-10-13 22:03:17 | [INFO    ] | scenarios.py:149 (scenario_decorated_profile_fetch) | Fetching user profile for user_id=999
+2026-10-13 22:03:17 | [ERROR   ] | error_logger.py:118 (log_exception) | Profile loader service failure - DatabaseConnectionError: PostgreSQL master instance unreachable at port 5432.
+Traceback Details:
+Traceback (most recent call last):
+  File "/Users/nandankumar/Nandan Prince/error_logger.py", line 212, in wrapper
+    return func(*args, **kwargs)
+  File "/Users/nandankumar/Nandan Prince/scenarios.py", line 153, in scenario_decorated_profile_fetch
+    raise DatabaseConnectionError("PostgreSQL master instance unreachable at port 5432.")
+scenarios.DatabaseConnectionError: PostgreSQL master instance unreachable at port 5432.
+2026-10-13 22:03:17 | [INFO    ] | scenarios.py:164 (scenario_context_manager_block) | Starting safe block using ErrorContext...
+2026-10-13 22:03:17 | [ERROR   ] | error_logger.py:118 (log_exception) | Exception caught in context 'Simulated Billing Calculation' - KeyError: 'GBP'
+Traceback Details:
+Traceback (most recent call last):
+  File "/Users/nandankumar/Nandan Prince/scenarios.py", line 169, in scenario_context_manager_block
+    _ = rates["GBP"]  # Raises KeyError
+        ~~~~~^^^^^^^
+KeyError: 'GBP'
+2026-10-13 22:03:58 | [ERROR   ] | error_logger.py:118 (log_exception) | Exception caught in context 'Sample Protected Section' - ValueError: invalid literal for int() with base 10: 'NOT_A_VALID_NUMBER'
+Traceback Details:
+Traceback (most recent call last):
+  File "/Users/nandankumar/Nandan Prince/tests/test_logger.py", line 114, in test_context_manager_handling
+    _ = int("NOT_A_VALID_NUMBER")
+ValueError: invalid literal for int() with base 10: 'NOT_A_VALID_NUMBER'
+2026-10-13 22:03:58 | [ERROR   ] | error_logger.py:118 (log_exception) | Protected test func - KeyError: 'missing_key'
+Traceback Details:
+Traceback (most recent call last):
+  File "/Users/nandankumar/Nandan Prince/error_logger.py", line 212, in wrapper
+    return func(*args, **kwargs)
+  File "/Users/nandankumar/Nandan Prince/tests/test_logger.py", line 100, in faulty_func
+    return x["missing_key"]
+           ~^^^^^^^^^^^^^^^
+KeyError: 'missing_key'
+2026-10-13 22:14:35 | [INFO    ] | scenarios.py:43 (scenario_zero_division) | Attempting division operation: 100 / 5
+2026-10-13 22:14:35 | [INFO    ] | scenarios.py:46 (scenario_zero_division) | Division succeeded: 100 / 5 = 20.0
+2026-10-13 22:14:35 | [INFO    ] | scenarios.py:43 (scenario_zero_division) | Attempting division operation: 100 / 0
+2026-10-13 22:14:35 | [ERROR   ] | error_logger.py:118 (log_exception) | Failed arithmetic division (100 / 0)
+
+Traceback Details:
+Traceback (most recent call last):
+  File "/Users/nandankumar/Nandan Prince/scenarios.py", line 45, in scenario_zero_division
+    result = a / b
+             ~~^~~
+ZeroDivisionError: division by zero
+2026-10-13 22:14:35 | [INFO    ] | scenarios.py:59 (scenario_file_not_found) | Attempting to read file from path: 'non_existent_config.json'
+2026-10-13 22:14:35 | [ERROR   ] | error_logger.py:118 (log_exception) | Target file missing: 'non_existent_config.json'
+
+Traceback Details:
+Traceback (most recent call last):
+  File "/Users/nandankumar/Nandan Prince/scenarios.py", line 61, in scenario_file_not_found
+    with open(filepath, "r", encoding="utf-8") as f:
+         ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'non_existent_config.json'
+2026-10-13 22:14:35 | [INFO    ] | scenarios.py:81 (scenario_dictionary_key_error) | Looking up dictionary key: 'server' in dataset with keys ['server', 'port']
+2026-10-13 22:14:35 | [INFO    ] | scenarios.py:84 (scenario_dictionary_key_error) | Retrieved key 'server': prod-east-1
+2026-10-13 22:14:35 | [INFO    ] | scenarios.py:81 (scenario_dictionary_key_error) | Looking up dictionary key: 'api_secret_key' in dataset with keys ['server', 'port']
+2026-10-13 22:14:35 | [ERROR   ] | error_logger.py:118 (log_exception) | Key missing from dictionary. Available keys: ['server', 'port']
+
+Traceback Details:
+Traceback (most recent call last):
+  File "/Users/nandankumar/Nandan Prince/scenarios.py", line 83, in scenario_dictionary_key_error
+    val = data[key]
+          ~~~~^^^^^
+KeyError: 'api_secret_key'
+2026-10-13 22:14:35 | [INFO    ] | scenarios.py:97 (scenario_index_out_of_range) | Accessing list item at index: 1 (list length: 3)
+2026-10-13 22:14:35 | [INFO    ] | scenarios.py:100 (scenario_index_out_of_range) | Retrieved item at index 1: banana
+2026-10-13 22:14:35 | [INFO    ] | scenarios.py:97 (scenario_index_out_of_range) | Accessing list item at index: 10 (list length: 3)
+2026-10-13 22:14:35 | [ERROR   ] | error_logger.py:118 (log_exception) | Invalid index 10 accessed on list of size 3
+
+Traceback Details:
+Traceback (most recent call last):
+  File "/Users/nandankumar/Nandan Prince/scenarios.py", line 99, in scenario_index_out_of_range
+    item = items[index]
+           ~~~~~^^^^^^^
+IndexError: list index out of range
+2026-10-13 22:14:35 | [INFO    ] | scenarios.py:113 (scenario_value_conversion) | Attempting to convert string '12345' into integer.
+2026-10-13 22:14:35 | [INFO    ] | scenarios.py:116 (scenario_value_conversion) | Conversion successful: 12345
+2026-10-13 22:14:35 | [INFO    ] | scenarios.py:113 (scenario_value_conversion) | Attempting to convert string 'NotANumber_XYZ' into integer.
+2026-10-13 22:14:35 | [ERROR   ] | error_logger.py:118 (log_exception) | String to integer cast failed for 'NotANumber_XYZ'
+
+Traceback Details:
+Traceback (most recent call last):
+  File "/Users/nandankumar/Nandan Prince/scenarios.py", line 115, in scenario_value_conversion
+    parsed = int(raw_value)
+ValueError: invalid literal for int() with base 10: 'NotANumber_XYZ'
+2026-10-13 22:14:35 | [INFO    ] | scenarios.py:129 (scenario_type_mismatch) | Attempting addition between type str and float
+2026-10-13 22:14:35 | [ERROR   ] | error_logger.py:118 (log_exception) | Invalid operand types: str + float
+
+Traceback Details:
+Traceback (most recent call last):
+  File "/Users/nandankumar/Nandan Prince/scenarios.py", line 131, in scenario_type_mismatch
+    result = a + b
+             ~~^~~
+TypeError: can only concatenate str (not "float") to str
+2026-10-13 22:14:35 | [INFO    ] | scenarios.py:149 (scenario_decorated_profile_fetch) | Fetching user profile for user_id=999
+2026-10-13 22:14:35 | [ERROR   ] | error_logger.py:118 (log_exception) | Profile loader service failure
+
+Traceback Details:
+Traceback (most recent call last):
+  File "/Users/nandankumar/Nandan Prince/error_logger.py", line 232, in wrapper
+    return func(*args, **kwargs)
+  File "/Users/nandankumar/Nandan Prince/scenarios.py", line 153, in scenario_decorated_profile_fetch
+    raise DatabaseConnectionError("PostgreSQL master instance unreachable at port 5432.")
+scenarios.DatabaseConnectionError: PostgreSQL master instance unreachable at port 5432.
+2026-10-13 22:14:35 | [INFO    ] | scenarios.py:164 (scenario_context_manager_block) | Starting safe block using ErrorContext...
+2026-10-13 22:14:35 | [ERROR   ] | error_logger.py:118 (log_exception) | Exception caught in context 'Simulated Billing Calculation'
+
+Traceback Details:
+Traceback (most recent call last):
+  File "/Users/nandankumar/Nandan Prince/scenarios.py", line 169, in scenario_context_manager_block
+    _ = rates["GBP"]  # Raises KeyError
+        ~~~~~^^^^^^^
+KeyError: 'GBP'
+2026-10-13 22:16:52 | [INFO    ] | scenarios.py:43 (scenario_zero_division) | Attempting division operation: 100 / 5
+2026-10-13 22:16:52 | [INFO    ] | scenarios.py:46 (scenario_zero_division) | Division succeeded: 100 / 5 = 20.0
+2026-10-13 22:16:52 | [INFO    ] | scenarios.py:43 (scenario_zero_division) | Attempting division operation: 100 / 0
+2026-10-13 22:16:52 | [ERROR   ] | error_logger.py:118 (log_exception) | Failed arithmetic division (100 / 0)
+
+Traceback Details:
+Traceback (most recent call last):
+  File "/Users/nandankumar/Nandan Prince/scenarios.py", line 45, in scenario_zero_division
+    result = a / b
+             ~~^~~
+ZeroDivisionError: division by zero
+2026-10-13 22:16:52 | [INFO    ] | scenarios.py:59 (scenario_file_not_found) | Attempting to read file from path: 'non_existent_config.json'
+2026-10-13 22:16:52 | [ERROR   ] | error_logger.py:118 (log_exception) | Target file missing: 'non_existent_config.json'
+
+Traceback Details:
+Traceback (most recent call last):
+  File "/Users/nandankumar/Nandan Prince/scenarios.py", line 61, in scenario_file_not_found
+    with open(filepath, "r", encoding="utf-8") as f:
+         ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'non_existent_config.json'
+2026-10-13 22:16:52 | [INFO    ] | scenarios.py:81 (scenario_dictionary_key_error) | Looking up dictionary key: 'server' in dataset with keys ['server', 'port']
+2026-10-13 22:16:52 | [INFO    ] | scenarios.py:84 (scenario_dictionary_key_error) | Retrieved key 'server': prod-east-1
+2026-10-13 22:16:52 | [INFO    ] | scenarios.py:81 (scenario_dictionary_key_error) | Looking up dictionary key: 'api_secret_key' in dataset with keys ['server', 'port']
+2026-10-13 22:16:52 | [ERROR   ] | error_logger.py:118 (log_exception) | Key missing from dictionary. Available keys: ['server', 'port']
+
+Traceback Details:
+Traceback (most recent call last):
+  File "/Users/nandankumar/Nandan Prince/scenarios.py", line 83, in scenario_dictionary_key_error
+    val = data[key]
+          ~~~~^^^^^
+KeyError: 'api_secret_key'
+2026-10-13 22:16:52 | [INFO    ] | scenarios.py:97 (scenario_index_out_of_range) | Accessing list item at index: 1 (list length: 3)
+2026-10-13 22:16:52 | [INFO    ] | scenarios.py:100 (scenario_index_out_of_range) | Retrieved item at index 1: banana
+2026-10-13 22:16:52 | [INFO    ] | scenarios.py:97 (scenario_index_out_of_range) | Accessing list item at index: 10 (list length: 3)
+2026-10-13 22:16:52 | [ERROR   ] | error_logger.py:118 (log_exception) | Invalid index 10 accessed on list of size 3
+
+Traceback Details:
+Traceback (most recent call last):
+  File "/Users/nandankumar/Nandan Prince/scenarios.py", line 99, in scenario_index_out_of_range
+    item = items[index]
+           ~~~~~^^^^^^^
+IndexError: list index out of range
+2026-10-13 22:16:52 | [INFO    ] | scenarios.py:113 (scenario_value_conversion) | Attempting to convert string '12345' into integer.
+2026-10-13 22:16:52 | [INFO    ] | scenarios.py:116 (scenario_value_conversion) | Conversion successful: 12345
+2026-10-13 22:16:52 | [INFO    ] | scenarios.py:113 (scenario_value_conversion) | Attempting to convert string 'NotANumber_XYZ' into integer.
+2026-10-13 22:16:52 | [ERROR   ] | error_logger.py:118 (log_exception) | String to integer cast failed for 'NotANumber_XYZ'
+
+Traceback Details:
+Traceback (most recent call last):
+  File "/Users/nandankumar/Nandan Prince/scenarios.py", line 115, in scenario_value_conversion
+    parsed = int(raw_value)
+ValueError: invalid literal for int() with base 10: 'NotANumber_XYZ'
+2026-10-13 22:16:52 | [INFO    ] | scenarios.py:129 (scenario_type_mismatch) | Attempting addition between type str and float
+2026-10-13 22:16:52 | [ERROR   ] | error_logger.py:118 (log_exception) | Invalid operand types: str + float
+
+Traceback Details:
+Traceback (most recent call last):
+  File "/Users/nandankumar/Nandan Prince/scenarios.py", line 131, in scenario_type_mismatch
+    result = a + b
+             ~~^~~
+TypeError: can only concatenate str (not "float") to str
+2026-10-13 22:16:52 | [INFO    ] | scenarios.py:149 (scenario_decorated_profile_fetch) | Fetching user profile for user_id=999
+2026-10-13 22:16:52 | [ERROR   ] | error_logger.py:118 (log_exception) | Profile loader service failure
+
+Traceback Details:
+Traceback (most recent call last):
+  File "/Users/nandankumar/Nandan Prince/error_logger.py", line 232, in wrapper
+    return func(*args, **kwargs)
+  File "/Users/nandankumar/Nandan Prince/scenarios.py", line 153, in scenario_decorated_profile_fetch
+    raise DatabaseConnectionError("PostgreSQL master instance unreachable at port 5432.")
+scenarios.DatabaseConnectionError: PostgreSQL master instance unreachable at port 5432.
+2026-10-13 22:16:52 | [INFO    ] | scenarios.py:164 (scenario_context_manager_block) | Starting safe block using ErrorContext...
+2026-10-13 22:16:52 | [ERROR   ] | error_logger.py:118 (log_exception) | Exception caught in context 'Simulated Billing Calculation'
+
+Traceback Details:
+Traceback (most recent call last):
+  File "/Users/nandankumar/Nandan Prince/scenarios.py", line 169, in scenario_context_manager_block
+    _ = rates["GBP"]  # Raises KeyError
+        ~~~~~^^^^^^^
+KeyError: 'GBP'
