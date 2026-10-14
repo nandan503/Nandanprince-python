@@ -1,13 +1,6 @@
 # Python Error Logger Dependencies
 # =================================
-# This application is built 100% using Python's standard library:
-# - logging (core logging and RotatingFileHandler)
-# - traceback (exception extraction and formatting)
-# - functools (wraps decorator)
-# - unittest (automated test suite)
-# - os, sys, typing, re (system operations)
+# Core application & CLI are built 100% using Python's standard library.
 #
-# No external third-party dependencies are required to run this project.
-#
-# Optional test runner:
-# pytest>=7.0.0
+# Web Dashboard dependency:
+Flask>=3.0.0

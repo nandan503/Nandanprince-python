@@ -398,3 +398,206 @@ Traceback (most recent call last):
     raise DatabaseConnectionError(f"Database replica cluster unreachable for user_id {user_id}")
 exceptions.DatabaseConnectionError: Database replica cluster unreachable for user_id -1
 2026-10-13 22:39:00 | [INFO    ] | decorators.py:45 (wrapper) | Fallback recovery executed for 'fetch_user_profile_decorated': returning safe value [{'status': 'offline_cached', 'user': 'guest_profile'}].
+2026-10-13 23:46:54 | [INFO    ] | scenarios.py:38 (run_arithmetic_scenario) | Attempting arithmetic division operation: 50 / 0
+2026-10-13 23:46:54 | [ERROR   ] | scenarios.py:46 (run_arithmetic_scenario) | Failed arithmetic division: attempted division by zero (50 / 0)
+Traceback (most recent call last):
+  File "/Users/nandankumar/Nandan Prince/scenarios.py", line 40, in run_arithmetic_scenario
+    result = a / b
+             ~~^~~
+ZeroDivisionError: division by zero
+2026-10-13 23:47:09 | [INFO    ] | scenarios.py:38 (run_arithmetic_scenario) | Attempting arithmetic division operation: 50 / 5
+2026-10-13 23:47:09 | [INFO    ] | scenarios.py:41 (run_arithmetic_scenario) | Division operation successful: 50 / 5 = 10.0
+2026-10-13 23:47:09 | [INFO    ] | scenarios.py:38 (run_arithmetic_scenario) | Attempting arithmetic division operation: 50 / 0
+2026-10-13 23:47:09 | [ERROR   ] | scenarios.py:46 (run_arithmetic_scenario) | Failed arithmetic division: attempted division by zero (50 / 0)
+Traceback (most recent call last):
+  File "/Users/nandankumar/Nandan Prince/scenarios.py", line 40, in run_arithmetic_scenario
+    result = a / b
+             ~~^~~
+ZeroDivisionError: division by zero
+2026-10-13 23:47:09 | [INFO    ] | scenarios.py:60 (run_file_system_scenario) | Attempting to open and read file: 'scenarios.py'
+2026-10-13 23:47:09 | [INFO    ] | scenarios.py:64 (run_file_system_scenario) | File 'scenarios.py' read successfully (11330 characters read).
+2026-10-13 23:47:09 | [INFO    ] | scenarios.py:60 (run_file_system_scenario) | Attempting to open and read file: 'missing_config_file.json'
+2026-10-13 23:47:09 | [ERROR   ] | scenarios.py:69 (run_file_system_scenario) | Failed to open file: target path 'missing_config_file.json' does not exist on disk
+Traceback (most recent call last):
+  File "/Users/nandankumar/Nandan Prince/scenarios.py", line 62, in run_file_system_scenario
+    with open(filepath, "r", encoding="utf-8") as f:
+         ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'missing_config_file.json'
+2026-10-13 23:47:09 | [INFO    ] | scenarios.py:82 (run_dictionary_lookup_scenario) | Attempting dictionary lookup for key: 'server_port'
+2026-10-13 23:47:09 | [INFO    ] | scenarios.py:85 (run_dictionary_lookup_scenario) | Dictionary lookup succeeded for key 'server_port': value retrieved.
+2026-10-13 23:47:09 | [INFO    ] | scenarios.py:82 (run_dictionary_lookup_scenario) | Attempting dictionary lookup for key: 'database_token'
+2026-10-13 23:47:09 | [ERROR   ] | scenarios.py:90 (run_dictionary_lookup_scenario) | KeyError encountered: requested key 'database_token' not present in dictionary
+Traceback (most recent call last):
+  File "/Users/nandankumar/Nandan Prince/scenarios.py", line 84, in run_dictionary_lookup_scenario
+    value = data[key]
+            ~~~~^^^^^
+KeyError: 'database_token'
+2026-10-13 23:47:09 | [INFO    ] | scenarios.py:103 (run_list_index_scenario) | Attempting list index access at position 1 (list length: 3)
+2026-10-13 23:47:09 | [INFO    ] | scenarios.py:106 (run_list_index_scenario) | List item retrieved successfully at index 1: Network Manager
+2026-10-13 23:47:09 | [INFO    ] | scenarios.py:103 (run_list_index_scenario) | Attempting list index access at position 99 (list length: 3)
+2026-10-13 23:47:09 | [ERROR   ] | scenarios.py:111 (run_list_index_scenario) | IndexError encountered: index 99 is out of range for list size 3
+Traceback (most recent call last):
+  File "/Users/nandankumar/Nandan Prince/scenarios.py", line 105, in run_list_index_scenario
+    item = items[index]
+           ~~~~~^^^^^^^
+IndexError: list index out of range
+2026-10-13 23:47:09 | [INFO    ] | scenarios.py:124 (run_value_conversion_scenario) | Attempting integer conversion on input: '4096'
+2026-10-13 23:47:09 | [INFO    ] | scenarios.py:127 (run_value_conversion_scenario) | Value conversion successful: parsed integer 4096
+2026-10-13 23:47:09 | [INFO    ] | scenarios.py:124 (run_value_conversion_scenario) | Attempting integer conversion on input: 'Invalid_Number'
+2026-10-13 23:47:09 | [ERROR   ] | scenarios.py:132 (run_value_conversion_scenario) | ValueError encountered: string 'Invalid_Number' is not a valid integer literal
+Traceback (most recent call last):
+  File "/Users/nandankumar/Nandan Prince/scenarios.py", line 126, in run_value_conversion_scenario
+    parsed_val = int(raw_input)
+ValueError: invalid literal for int() with base 10: 'Invalid_Number'
+2026-10-13 23:47:09 | [INFO    ] | scenarios.py:145 (run_type_mismatch_scenario) | Attempting addition between type 'int' and 'int'
+2026-10-13 23:47:09 | [INFO    ] | scenarios.py:152 (run_type_mismatch_scenario) | Addition operation succeeded: result = 350
+2026-10-13 23:47:09 | [INFO    ] | scenarios.py:145 (run_type_mismatch_scenario) | Attempting addition between type 'str' and 'int'
+2026-10-13 23:47:09 | [ERROR   ] | scenarios.py:157 (run_type_mismatch_scenario) | TypeError encountered: unsupported operand types for +: 'str' and 'int'
+Traceback (most recent call last):
+  File "/Users/nandankumar/Nandan Prince/scenarios.py", line 151, in run_type_mismatch_scenario
+    result = a + b
+             ~~^~~
+TypeError: can only concatenate str (not "int") to str
+2026-10-13 23:47:09 | [INFO    ] | scenarios.py:178 (fetch_user_profile_decorated) | Calling decorated function 'fetch_user_profile_decorated' for user_id=-1
+2026-10-13 23:47:09 | [ERROR   ] | decorators.py:44 (wrapper) | User database service connection failure - DatabaseConnectionError: Database replica cluster unreachable for user_id -1
+Traceback (most recent call last):
+  File "/Users/nandankumar/Nandan Prince/decorators.py", line 40, in wrapper
+    return func(*args, **kwargs)
+  File "/Users/nandankumar/Nandan Prince/scenarios.py", line 180, in fetch_user_profile_decorated
+    raise DatabaseConnectionError(f"Database replica cluster unreachable for user_id {user_id}")
+exceptions.DatabaseConnectionError: Database replica cluster unreachable for user_id -1
+2026-10-13 23:47:09 | [INFO    ] | decorators.py:45 (wrapper) | Fallback recovery executed for 'fetch_user_profile_decorated': returning safe value [{'status': 'offline_cached', 'user': 'guest_profile'}].
+2026-10-13 23:47:09 | [INFO    ] | error_context.py:41 (__enter__) | Entering protected context: 'Payment Gateway Verification'
+2026-10-13 23:47:09 | [ERROR   ] | error_context.py:50 (__exit__) | Exception handled in context 'Payment Gateway Verification' - KeyError: 'GBP'
+Traceback (most recent call last):
+  File "/Users/nandankumar/Nandan Prince/scenarios.py", line 203, in run_context_manager_scenario
+    _ = currency_rates["GBP"]  # Raises KeyError
+        ~~~~~~~~~~~~~~^^^^^^^
+KeyError: 'GBP'
+2026-10-13 23:47:09 | [INFO    ] | error_context.py:59 (__exit__) | Safely suppressed KeyError in context 'Payment Gateway Verification'. Execution will continue.
+2026-10-14 10:48:49 | [INFO    ] | scenarios.py:38 (run_arithmetic_scenario) | Attempting arithmetic division operation: 50 / 0
+2026-10-14 10:48:49 | [ERROR   ] | scenarios.py:46 (run_arithmetic_scenario) | Failed arithmetic division: attempted division by zero (50 / 0)
+Traceback (most recent call last):
+  File "/Users/nandankumar/Nandan Prince/scenarios.py", line 40, in run_arithmetic_scenario
+    result = a / b
+             ~~^~~
+ZeroDivisionError: division by zero
+2026-10-14 10:49:02 | [INFO    ] | scenarios.py:38 (run_arithmetic_scenario) | Attempting arithmetic division operation: 50 / 0
+2026-10-14 10:49:02 | [ERROR   ] | scenarios.py:46 (run_arithmetic_scenario) | Failed arithmetic division: attempted division by zero (50 / 0)
+Traceback (most recent call last):
+  File "/Users/nandankumar/Nandan Prince/scenarios.py", line 40, in run_arithmetic_scenario
+    result = a / b
+             ~~^~~
+ZeroDivisionError: division by zero
+2026-10-14 10:49:09 | [INFO    ] | scenarios.py:38 (run_arithmetic_scenario) | Attempting arithmetic division operation: 50 / 0
+2026-10-14 10:49:09 | [ERROR   ] | scenarios.py:46 (run_arithmetic_scenario) | Failed arithmetic division: attempted division by zero (50 / 0)
+Traceback (most recent call last):
+  File "/Users/nandankumar/Nandan Prince/scenarios.py", line 40, in run_arithmetic_scenario
+    result = a / b
+             ~~^~~
+ZeroDivisionError: division by zero
+2026-10-14 10:52:09 | [INFO    ] | scenarios.py:38 (run_arithmetic_scenario) | Attempting arithmetic division operation: 50 / 0
+2026-10-14 10:52:09 | [ERROR   ] | scenarios.py:46 (run_arithmetic_scenario) | Failed arithmetic division: attempted division by zero (50 / 0)
+Traceback (most recent call last):
+  File "/Users/nandankumar/Nandan Prince/scenarios.py", line 40, in run_arithmetic_scenario
+    result = a / b
+             ~~^~~
+ZeroDivisionError: division by zero
+2026-10-14 10:53:07 | [INFO    ] | scenarios.py:38 (run_arithmetic_scenario) | Attempting arithmetic division operation: 50 / 0
+2026-10-14 10:53:07 | [ERROR   ] | scenarios.py:46 (run_arithmetic_scenario) | Failed arithmetic division: attempted division by zero (50 / 0)
+Traceback (most recent call last):
+  File "/Users/nandankumar/Nandan Prince/scenarios.py", line 40, in run_arithmetic_scenario
+    result = a / b
+             ~~^~~
+ZeroDivisionError: division by zero
+2026-10-14 10:54:10 | [INFO    ] | scenarios.py:38 (run_arithmetic_scenario) | Attempting arithmetic division operation: 50 / 0
+2026-10-14 10:54:10 | [ERROR   ] | scenarios.py:46 (run_arithmetic_scenario) | Failed arithmetic division: attempted division by zero (50 / 0)
+Traceback (most recent call last):
+  File "/Users/nandankumar/Nandan Prince/scenarios.py", line 40, in run_arithmetic_scenario
+    result = a / b
+             ~~^~~
+ZeroDivisionError: division by zero
+2026-10-14 10:54:18 | [INFO    ] | scenarios.py:38 (run_arithmetic_scenario) | Attempting arithmetic division operation: 50 / 0
+2026-10-14 10:54:18 | [ERROR   ] | scenarios.py:46 (run_arithmetic_scenario) | Failed arithmetic division: attempted division by zero (50 / 0)
+Traceback (most recent call last):
+  File "/Users/nandankumar/Nandan Prince/scenarios.py", line 40, in run_arithmetic_scenario
+    result = a / b
+             ~~^~~
+ZeroDivisionError: division by zero
+2026-10-14 10:54:56 | [INFO    ] | scenarios.py:38 (run_arithmetic_scenario) | Attempting arithmetic division operation: 50 / 5
+2026-10-14 10:54:56 | [INFO    ] | scenarios.py:41 (run_arithmetic_scenario) | Division operation successful: 50 / 5 = 10.0
+2026-10-14 10:54:56 | [INFO    ] | scenarios.py:38 (run_arithmetic_scenario) | Attempting arithmetic division operation: 50 / 0
+2026-10-14 10:54:56 | [ERROR   ] | scenarios.py:46 (run_arithmetic_scenario) | Failed arithmetic division: attempted division by zero (50 / 0)
+Traceback (most recent call last):
+  File "/Users/nandankumar/Nandan Prince/scenarios.py", line 40, in run_arithmetic_scenario
+    result = a / b
+             ~~^~~
+ZeroDivisionError: division by zero
+2026-10-14 10:54:56 | [INFO    ] | scenarios.py:60 (run_file_system_scenario) | Attempting to open and read file: 'scenarios.py'
+2026-10-14 10:54:56 | [INFO    ] | scenarios.py:64 (run_file_system_scenario) | File 'scenarios.py' read successfully (11330 characters read).
+2026-10-14 10:54:56 | [INFO    ] | scenarios.py:60 (run_file_system_scenario) | Attempting to open and read file: 'missing_config_file.json'
+2026-10-14 10:54:56 | [ERROR   ] | scenarios.py:69 (run_file_system_scenario) | Failed to open file: target path 'missing_config_file.json' does not exist on disk
+Traceback (most recent call last):
+  File "/Users/nandankumar/Nandan Prince/scenarios.py", line 62, in run_file_system_scenario
+    with open(filepath, "r", encoding="utf-8") as f:
+         ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'missing_config_file.json'
+2026-10-14 10:54:56 | [INFO    ] | scenarios.py:82 (run_dictionary_lookup_scenario) | Attempting dictionary lookup for key: 'server_port'
+2026-10-14 10:54:56 | [INFO    ] | scenarios.py:85 (run_dictionary_lookup_scenario) | Dictionary lookup succeeded for key 'server_port': value retrieved.
+2026-10-14 10:54:56 | [INFO    ] | scenarios.py:82 (run_dictionary_lookup_scenario) | Attempting dictionary lookup for key: 'database_token'
+2026-10-14 10:54:56 | [ERROR   ] | scenarios.py:90 (run_dictionary_lookup_scenario) | KeyError encountered: requested key 'database_token' not present in dictionary
+Traceback (most recent call last):
+  File "/Users/nandankumar/Nandan Prince/scenarios.py", line 84, in run_dictionary_lookup_scenario
+    value = data[key]
+            ~~~~^^^^^
+KeyError: 'database_token'
+2026-10-14 10:54:56 | [INFO    ] | scenarios.py:103 (run_list_index_scenario) | Attempting list index access at position 1 (list length: 3)
+2026-10-14 10:54:56 | [INFO    ] | scenarios.py:106 (run_list_index_scenario) | List item retrieved successfully at index 1: Network Manager
+2026-10-14 10:54:56 | [INFO    ] | scenarios.py:103 (run_list_index_scenario) | Attempting list index access at position 99 (list length: 3)
+2026-10-14 10:54:56 | [ERROR   ] | scenarios.py:111 (run_list_index_scenario) | IndexError encountered: index 99 is out of range for list size 3
+Traceback (most recent call last):
+  File "/Users/nandankumar/Nandan Prince/scenarios.py", line 105, in run_list_index_scenario
+    item = items[index]
+           ~~~~~^^^^^^^
+IndexError: list index out of range
+2026-10-14 10:54:56 | [INFO    ] | scenarios.py:124 (run_value_conversion_scenario) | Attempting integer conversion on input: '4096'
+2026-10-14 10:54:56 | [INFO    ] | scenarios.py:127 (run_value_conversion_scenario) | Value conversion successful: parsed integer 4096
+2026-10-14 10:54:56 | [INFO    ] | scenarios.py:124 (run_value_conversion_scenario) | Attempting integer conversion on input: 'Invalid_Number'
+2026-10-14 10:54:56 | [ERROR   ] | scenarios.py:132 (run_value_conversion_scenario) | ValueError encountered: string 'Invalid_Number' is not a valid integer literal
+Traceback (most recent call last):
+  File "/Users/nandankumar/Nandan Prince/scenarios.py", line 126, in run_value_conversion_scenario
+    parsed_val = int(raw_input)
+ValueError: invalid literal for int() with base 10: 'Invalid_Number'
+2026-10-14 10:54:56 | [INFO    ] | scenarios.py:145 (run_type_mismatch_scenario) | Attempting addition between type 'int' and 'int'
+2026-10-14 10:54:56 | [INFO    ] | scenarios.py:152 (run_type_mismatch_scenario) | Addition operation succeeded: result = 350
+2026-10-14 10:54:56 | [INFO    ] | scenarios.py:145 (run_type_mismatch_scenario) | Attempting addition between type 'str' and 'int'
+2026-10-14 10:54:56 | [ERROR   ] | scenarios.py:157 (run_type_mismatch_scenario) | TypeError encountered: unsupported operand types for +: 'str' and 'int'
+Traceback (most recent call last):
+  File "/Users/nandankumar/Nandan Prince/scenarios.py", line 151, in run_type_mismatch_scenario
+    result = a + b
+             ~~^~~
+TypeError: can only concatenate str (not "int") to str
+2026-10-14 10:54:56 | [INFO    ] | scenarios.py:178 (fetch_user_profile_decorated) | Calling decorated function 'fetch_user_profile_decorated' for user_id=-1
+2026-10-14 10:54:56 | [ERROR   ] | decorators.py:44 (wrapper) | User database service connection failure - DatabaseConnectionError: Database replica cluster unreachable for user_id -1
+Traceback (most recent call last):
+  File "/Users/nandankumar/Nandan Prince/decorators.py", line 40, in wrapper
+    return func(*args, **kwargs)
+  File "/Users/nandankumar/Nandan Prince/scenarios.py", line 180, in fetch_user_profile_decorated
+    raise DatabaseConnectionError(f"Database replica cluster unreachable for user_id {user_id}")
+exceptions.DatabaseConnectionError: Database replica cluster unreachable for user_id -1
+2026-10-14 10:54:56 | [INFO    ] | decorators.py:45 (wrapper) | Fallback recovery executed for 'fetch_user_profile_decorated': returning safe value [{'status': 'offline_cached', 'user': 'guest_profile'}].
+2026-10-14 10:54:56 | [INFO    ] | error_context.py:41 (__enter__) | Entering protected context: 'Payment Gateway Verification'
+2026-10-14 10:54:56 | [ERROR   ] | error_context.py:50 (__exit__) | Exception handled in context 'Payment Gateway Verification' - KeyError: 'GBP'
+Traceback (most recent call last):
+  File "/Users/nandankumar/Nandan Prince/scenarios.py", line 203, in run_context_manager_scenario
+    _ = currency_rates["GBP"]  # Raises KeyError
+        ~~~~~~~~~~~~~~^^^^^^^
+KeyError: 'GBP'
+2026-10-14 10:54:56 | [INFO    ] | error_context.py:59 (__exit__) | Safely suppressed KeyError in context 'Payment Gateway Verification'. Execution will continue.
+2026-10-14 10:55:43 | [INFO    ] | scenarios.py:38 (run_arithmetic_scenario) | Attempting arithmetic division operation: 50 / 0
+2026-10-14 10:55:43 | [ERROR   ] | scenarios.py:46 (run_arithmetic_scenario) | Failed arithmetic division: attempted division by zero (50 / 0)
+Traceback (most recent call last):
+  File "/Users/nandankumar/Nandan Prince/scenarios.py", line 40, in run_arithmetic_scenario
+    result = a / b
+             ~~^~~
+ZeroDivisionError: division by zero

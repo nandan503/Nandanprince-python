@@ -190,10 +190,11 @@ def interactive_menu() -> None:
             print("  3) 📜 View Log File ('app.log')")
             print("  4) 📊 View Error Summary by Exception Type")
             print("  5) 🧪 Run Automated Unit Tests")
-            print("  6) 🧹 Clear Log File (with confirmation)")
+            print("  6) 🌐 Launch Flask Web Dashboard")
+            print("  7) 🧹 Clear Log File (with confirmation)")
             print("  0) 🚪 Exit Application")
 
-            choice = input("\nEnter choice [0-6]: ").strip()
+            choice = input("\nEnter choice [0-7]: ").strip()
 
             if choice == "1":
                 scenarios.run_all_scenarios()
@@ -206,12 +207,16 @@ def interactive_menu() -> None:
             elif choice == "5":
                 run_unit_tests()
             elif choice == "6":
+                print("\nStarting Flask Web Dashboard...")
+                from web_dashboard import start_server
+                start_server()
+            elif choice == "7":
                 prompt_clear_logs()
             elif choice == "0":
                 print("\nExiting Python Error Logger. Goodbye!")
                 sys.exit(0)
             else:
-                print(f"[Warning] '{choice}' is not a valid menu option. Please enter 0, 1, 2, 3, 4, 5, or 6.")
+                print(f"[Warning] '{choice}' is not a valid menu option. Please choose between 0 and 7.")
         except KeyboardInterrupt:
             print("\n\nOperation cancelled by user. Returning to menu (or enter 0 to exit).")
         except Exception as err:
@@ -233,6 +238,7 @@ def main() -> None:
     )
     parser.add_argument("--view", action="store_true", help="Display contents of the log file")
     parser.add_argument("--summary", action="store_true", help="Display summary of errors by exception type")
+    parser.add_argument("--web", action="store_true", help="Launch the Flask web dashboard")
     parser.add_argument("--test", action="store_true", help="Run automated unit test suite")
     parser.add_argument("--clear", action="store_true", help="Clear log file contents")
     parser.add_argument("--force", action="store_true", help="Force action without interactive confirmation")
@@ -257,6 +263,9 @@ def main() -> None:
         display_log_contents()
     elif args.summary:
         display_error_summary()
+    elif args.web:
+        from web_dashboard import start_server
+        start_server()
     elif args.test:
         run_unit_tests()
     elif args.clear:

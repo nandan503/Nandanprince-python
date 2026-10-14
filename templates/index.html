@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Python Error Logger Dashboard</title>
+    <!-- Google Fonts for modern typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+</head>
+<body>
+
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="brand">
+                    <span class="brand-icon">🛡️</span>
+                    <div class="brand-text">
+                        <h2>Python Error Logger Dashboard</h2>
+                        <span class="brand-badge">Python 3.14</span>
+                    </div>
+                </div>
+                <button class="btn-icon mobile-close-btn" id="sidebar-close-btn" aria-label="Close sidebar">✕</button>
+            </div>
+
+            <nav class="sidebar-nav">
+                <div class="nav-section-title">Navigation</div>
+                <a href="#dashboard" class="nav-item active" data-section="dashboard-section" id="nav-dashboard">
+                    <span class="nav-icon">📊</span>
+                    <span>Dashboard</span>
+                </a>
+                <a href="#logs" class="nav-item" data-section="logs-section" id="nav-logs">
+                    <span class="nav-icon">📜</span>
+                    <span>Error Logs</span>
+                    <span class="nav-counter" id="nav-logs-badge">0</span>
+                </a>
+                <a href="#about" class="nav-item" data-section="about-section" id="nav-about">
+                    <span class="nav-icon">ℹ️</span>
+                    <span>About System</span>
+                </a>
+
+                <div class="nav-section-title" style="margin-top: 24px;">Exception Simulator</div>
+                <div class="sidebar-simulators">
+                    <button class="btn-sim" id="btn-sim-zero" onclick="triggerScenario('zero_division')">➗ ZeroDivisionError</button>
+                    <button class="btn-sim" id="btn-sim-fnf" onclick="triggerScenario('file_not_found')">📁 FileNotFoundError</button>
+                    <button class="btn-sim" id="btn-sim-key" onclick="triggerScenario('key_error')">🔑 KeyError</button>
+                    <button class="btn-sim" id="btn-sim-val" onclick="triggerScenario('value_error')">🔢 ValueError</button>
+                    <button class="btn-sim" id="btn-sim-idx" onclick="triggerScenario('index_error')">📋 IndexError</button>
+                    <button class="btn-sim" id="btn-sim-type" onclick="triggerScenario('type_error')">🔀 TypeError</button>
+                    <button class="btn-sim" id="btn-sim-dec" onclick="triggerScenario('custom_db')">🛡️ Decorator Fallback</button>
+                    <button class="btn-sim" id="btn-sim-ctx" onclick="triggerScenario('context_mgr')">📦 ErrorContext Block</button>
+                </div>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="log-file-status">
+                    <span class="status-indicator online" id="log-file-indicator"></span>
+                    <span class="file-name" id="log-file-name" title="Active log file: logs/app.log">logs/app.log</span>
+                </div>
+                <div class="sidebar-actions">
+                    <a href="/api/download" class="btn-footer" id="btn-export-log" title="Download raw log file">💾 Export</a>
+                    <button class="btn-footer btn-footer-danger" id="btn-clear-log" onclick="clearLogsPrompt()" title="Clear log file">🧹 Clear</button>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- Top Navbar -->
+            <header class="topbar">
+                <div class="topbar-left">
+                    <button class="btn-icon mobile-menu-btn" id="sidebar-toggle-btn" aria-label="Open sidebar">☰</button>
+                    <div class="breadcrumbs">
+                        <span class="crumb-root">Python Error Logger Dashboard</span>
+                        <span class="crumb-separator">/</span>
+                        <span class="crumb-current" id="current-section-title">Dashboard</span>
+                    </div>
+                </div>
+
+                <div class="topbar-right">
+                    <div class="live-toggle-wrapper">
+                        <label class="switch-label" for="live-polling-toggle">
+                            <input type="checkbox" id="live-polling-toggle" checked>
+                            <span class="switch-slider"></span>
+                            <span class="switch-text">Live (1.5s)</span>
+                        </label>
+                    </div>
+
+                    <button class="btn btn-outline" id="refresh-btn" onclick="fetchData(true)" title="Fetch latest logs">
+                        <span class="btn-icon-spin" id="refresh-spin">🔄</span> Refresh
+                    </button>
+                </div>
+            </header>
+
+            <div class="content-body">
+                <!-- ======================================================== -->
+                <!-- 1. DASHBOARD SECTION -->
+                <!-- ======================================================== -->
+                <section class="page-section active" id="dashboard-section">
+                    <!-- Metrics Summary Cards -->
+                    <div class="metrics-grid">
+                        <div class="metric-card metric-card-total">
+                            <div class="metric-icon-bg">📑</div>
+                            <div class="metric-info">
+                                <span class="metric-label">Total Log Entries</span>
+                                <h3 class="metric-value" id="card-total">0</h3>
+                            </div>
+                        </div>
+
+                        <div class="metric-card metric-card-error">
+                            <div class="metric-icon-bg">🔴</div>
+                            <div class="metric-info">
+                                <span class="metric-label">Total Errors</span>
+                                <h3 class="metric-value text-red" id="card-errors">0</h3>
+                            </div>
+                        </div>
+
+                        <div class="metric-card metric-card-critical">
+                            <div class="metric-icon-bg">💥</div>
+                            <div class="metric-info">
+                                <span class="metric-label">Critical Events</span>
+                                <h3 class="metric-value text-magenta" id="card-critical">0</h3>
+                            </div>
+                        </div>
+
+                        <div class="metric-card metric-card-warning">
+                            <div class="metric-icon-bg">⚠️</div>
+                            <div class="metric-info">
+                                <span class="metric-label">Warnings</span>
+                                <h3 class="metric-value text-amber" id="card-warnings">0</h3>
+                            </div>
+                        </div>
+
+                        <div class="metric-card metric-card-info">
+                            <div class="metric-icon-bg">🟢</div>
+                            <div class="metric-info">
+                                <span class="metric-label">Info Events</span>
+                                <h3 class="metric-value text-green" id="card-info">0</h3>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Exception Types Breakdown Card -->
+                    <div class="card exception-breakdown-card">
+                        <div class="card-header">
+                            <div>
+                                <h4 class="card-title">Detected Exception Types</h4>
+                                <p class="card-subtitle">Real-time classification based on recorded stack trace signatures</p>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="exception-pill-list" id="dashboard-exception-pills">
+                                <span class="placeholder-text">No exceptions captured yet.</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recent Errors Snapshot Card -->
+                    <div class="card">
+                        <div class="card-header">
+                            <div>
+                                <h4 class="card-title">Recent Errors & Exceptions</h4>
+                                <p class="card-subtitle">Latest failure events with available stack traces</p>
+                            </div>
+                            <button class="btn btn-sm btn-outline" id="btn-view-all-logs" onclick="navigateToSection('logs-section')">View All Logs →</button>
+                        </div>
+                        <div class="card-body p-0">
+                            <div class="table-container">
+                                <table class="log-table" id="recent-errors-table">
+                                    <thead>
+                                        <tr>
+                                            <th style="width: 170px;">Timestamp</th>
+                                            <th style="width: 100px;">Level</th>
+                                            <th style="width: 250px;">Source Location</th>
+                                            <th>Error Message</th>
+                                            <th style="width: 90px; text-align: center;">Traceback</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="recent-errors-tbody">
+                                        <tr>
+                                            <td colspan="5" class="table-empty-cell">Loading recent error events...</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ======================================================== -->
+                <!-- 2. FULL LOGS SECTION -->
+                <!-- ======================================================== -->
+                <section class="page-section" id="logs-section">
+                    <div class="card">
+                        <!-- Filters & Search Toolbar -->
+                        <div class="log-toolbar">
+                            <div class="toolbar-search">
+                                <span class="search-icon">🔍</span>
+                                <input type="text" id="log-search-input" placeholder="Search by message, file, or keyword..." oninput="applyFilters()" aria-label="Search logs">
+                                <button class="btn-clear-search" id="clear-search-btn" onclick="clearSearch()" title="Clear search" aria-label="Clear search input">✕</button>
+                            </div>
+
+                            <div class="toolbar-filters">
+                                <div class="filter-item">
+                                    <label for="filter-level-select">Severity Level:</label>
+                                    <select id="filter-level-select" onchange="applyFilters()">
+                                        <option value="ALL">All Levels</option>
+                                        <option value="ERROR">ERROR</option>
+                                        <option value="CRITICAL">CRITICAL</option>
+                                        <option value="WARNING">WARNING</option>
+                                        <option value="INFO">INFO</option>
+                                        <option value="DEBUG">DEBUG</option>
+                                    </select>
+                                </div>
+
+                                <div class="filter-item">
+                                    <label for="filter-type-select">Exception Type:</label>
+                                    <select id="filter-type-select" onchange="applyFilters()">
+                                        <option value="ALL">All Exceptions</option>
+                                    </select>
+                                </div>
+
+                                <div class="toolbar-stats-counter" id="filtered-counter-badge">
+                                    Showing 0 of 0 entries
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Logs Data Table -->
+                        <div class="table-container">
+                            <table class="log-table" id="main-log-table">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 170px;">Timestamp</th>
+                                        <th style="width: 90px;">Severity</th>
+                                        <th style="width: 260px;">Source Location</th>
+                                        <th>Log Message</th>
+                                        <th style="width: 100px; text-align: center;">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="main-log-tbody">
+                                    <!-- Dynamic Rows Inserted Here -->
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- State Placeholders -->
+                        <div class="state-container hidden" id="log-loading-state">
+                            <div class="spinner"></div>
+                            <p>Reading log stream from Flask API...</p>
+                        </div>
+
+                        <div class="state-container hidden" id="log-empty-state">
+                            <div class="state-icon">📭</div>
+                            <h4>No Log Entries Found</h4>
+                            <p id="empty-state-desc">The log file is currently empty or no events match your search criteria.</p>
+                            <button class="btn btn-primary" onclick="triggerScenario('zero_division')">Simulate Test Error</button>
+                        </div>
+
+                        <div class="state-container hidden" id="log-error-state">
+                            <div class="state-icon text-red">⚠️</div>
+                            <h4>Log Connection Error</h4>
+                            <p id="log-error-message">Failed to connect to backend server.</p>
+                            <button class="btn btn-outline" onclick="fetchData(true)">Retry Connection</button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ======================================================== -->
+                <!-- 3. ABOUT SECTION -->
+                <!-- ======================================================== -->
+                <section class="page-section" id="about-section">
+                    <div class="grid-2col">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="card-title">System Architecture</h4>
+                            </div>
+                            <div class="card-body about-text">
+                                <p><strong>Python Error Logger System</strong> is an enterprise-grade diagnostic engine built with Python's standard library and an asynchronous-ready Flask web layer.</p>
+                                <ul class="about-feature-list">
+                                    <li><strong>Core Engine:</strong> <code>logging.handlers.RotatingFileHandler</code> with strict handler deduplication.</li>
+                                    <li><strong>Log Target:</strong> <code>logs/app.log</code> (10 MB max size, 5 backup cycles, UTF-8 encoded).</li>
+                                    <li><strong>Formatting:</strong> <code>%(asctime)s | [%(levelname)-8s] | %(filename)s:%(lineno)d (%(funcName)s) | %(message)s</code></li>
+                                    <li><strong>Safe Fallbacks:</strong> Reusable <code>@log_exceptions</code> decorator with recovery reporting.</li>
+                                    <li><strong>Scoped Suppression:</strong> Reusable <code>ErrorContext</code> manager for guarded execution blocks.</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="card-title">API Endpoints Reference</h4>
+                            </div>
+                            <div class="card-body p-0">
+                                <table class="api-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Method</th>
+                                            <th>Endpoint</th>
+                                            <th>Description</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><span class="badge-get">GET</span></td>
+                                            <td><code>/</code></td>
+                                            <td>Web Dashboard UI</td>
+                                        </tr>
+                                        <tr>
+                                            <td><span class="badge-get">GET</span></td>
+                                            <td><code>/api/logs</code></td>
+                                            <td>Read-only structured JSON log entries</td>
+                                        </tr>
+                                        <tr>
+                                            <td><span class="badge-get">GET</span></td>
+                                            <td><code>/api/summary</code></td>
+                                            <td>Diagnostic count metrics & exception breakdown</td>
+                                        </tr>
+                                        <tr>
+                                            <td><span class="badge-get">GET</span></td>
+                                            <td><code>/api/download</code></td>
+                                            <td>Download raw <code>app.log</code> file attachment</td>
+                                        </tr>
+                                        <tr>
+                                            <td><span class="badge-post">POST</span></td>
+                                            <td><code>/api/trigger/&lt;name&gt;</code></td>
+                                            <td>Simulate Python runtime exceptions on demand</td>
+                                        </tr>
+                                        <tr>
+                                            <td><span class="badge-post">POST</span></td>
+                                            <td><code>/api/clear</code></td>
+                                            <td>Truncate log file</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <!-- ======================================================== -->
+    <!-- LOG DETAILS & TRACEBACK MODAL DIALOG -->
+    <!-- ======================================================== -->
+    <div class="modal-overlay hidden" id="log-detail-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+        <div class="modal-card">
+            <div class="modal-header">
+                <div class="modal-header-meta">
+                    <span class="badge-level" id="modal-badge">ERROR</span>
+                    <h3 class="modal-title" id="modal-title">Log Entry Details</h3>
+                </div>
+                <button class="btn-icon" id="modal-close-btn" onclick="closeLogModal()" aria-label="Close dialog">✕</button>
+            </div>
+
+            <div class="modal-body">
+                <div class="detail-meta-grid">
+                    <div class="detail-meta-item">
+                        <span class="detail-label">Timestamp</span>
+                        <span class="detail-value" id="modal-timestamp">-</span>
+                    </div>
+                    <div class="detail-meta-item">
+                        <span class="detail-label">Source File & Line</span>
+                        <span class="detail-value font-mono" id="modal-source">-</span>
+                    </div>
+                </div>
+
+                <div class="detail-section">
+                    <span class="detail-label">Message</span>
+                    <div class="detail-message-box" id="modal-message">-</div>
+                </div>
+
+                <div class="detail-section" id="modal-traceback-section">
+                    <div class="traceback-header-row">
+                        <span class="detail-label text-red">Full Stack Traceback</span>
+                        <button class="btn btn-sm btn-outline" id="copy-traceback-btn" onclick="copyTracebackText()">📋 Copy</button>
+                    </div>
+                    <pre class="traceback-code-block" id="modal-traceback"></pre>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeLogModal()">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification Banner -->
+    <div id="toast-banner" class="toast-banner hidden" role="status" aria-live="polite"></div>
+
+    <!-- JavaScript Application Logic -->
+    <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+</body>
+</html>

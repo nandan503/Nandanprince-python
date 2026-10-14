@@ -14,12 +14,12 @@ import threading
 from typing import Optional
 
 from error_logger import (
-    ErrorLogger,
+    ErrorLoggerManager,
     get_logger,
-    get_error_logger_manager,
-    install_global_exception_hooks,
+    get_logger_manager,
 )
 import scenarios
+from exceptions import DatabaseConnectionError
 
 
 class ErrorLoggerGUI:
@@ -31,9 +31,8 @@ class ErrorLoggerGUI:
         self.root.geometry("1100, 720")
         self.root.minsize(850, 550)
 
-        # Initialize core logging & hooks
-        install_global_exception_hooks()
-        self.logger_mgr = get_error_logger_manager()
+        # Initialize core logging manager
+        self.logger_mgr = get_logger_manager()
         self.logger = get_logger()
 
         # State tracking
@@ -347,7 +346,7 @@ class ErrorLoggerGUI:
         search = self.search_term.get().strip().lower()
 
         # Update Statistics Label
-        stats = self.logger_mgr.get_log_stats()
+        stats = self.logger_mgr.get_summary_statistics()
         self.stats_label.config(
             text=f"📊 Total Entries: {stats['TOTAL_ENTRIES']}  |  "
                  f"🔴 Errors: {stats['ERROR']}  |  "
@@ -430,44 +429,44 @@ class ErrorLoggerGUI:
     # Scenario Triggers
     # -------------------------------------------------------------------------
     def _trigger_zero_division(self):
-        res = scenarios.scenario_zero_division(42, 0)
+        scenarios.run_arithmetic_scenario(42, 0)
         self._set_status("Triggered ZeroDivisionError (42 / 0). User alert shown; logged to app.log.", is_error=True)
         self.refresh_logs()
 
     def _trigger_file_not_found(self):
-        res = scenarios.scenario_file_not_found("secret_system_vault.dat")
+        scenarios.run_file_system_scenario("secret_system_vault.dat")
         self._set_status("Triggered FileNotFoundError ('secret_system_vault.dat'). Logged to app.log.", is_error=True)
         self.refresh_logs()
 
     def _trigger_key_error(self):
-        res = scenarios.scenario_dictionary_key_error({"user_id": 101, "role": "admin"}, "jwt_auth_token")
+        scenarios.run_dictionary_lookup_scenario({"user_id": 101, "role": "admin"}, "jwt_auth_token")
         self._set_status("Triggered KeyError ('jwt_auth_token' missing). Logged to app.log.", is_error=True)
         self.refresh_logs()
 
     def _trigger_value_error(self):
-        res = scenarios.scenario_value_conversion("AlphaNumeric_999")
+        scenarios.run_value_conversion_scenario("AlphaNumeric_999")
         self._set_status("Triggered ValueError (int casting error). Logged to app.log.", is_error=True)
         self.refresh_logs()
 
     def _trigger_index_error(self):
-        res = scenarios.scenario_index_out_of_range(["node_1", "node_2"], 99)
+        scenarios.run_list_index_scenario(["node_1", "node_2"], 99)
         self._set_status("Triggered IndexError (index 99 out of range). Logged to app.log.", is_error=True)
         self.refresh_logs()
 
     def _trigger_type_error(self):
-        res = scenarios.scenario_type_mismatch("Database Port: ", 5432)
+        scenarios.run_type_mismatch_scenario("Database Port: ", 5432)
         self._set_status("Triggered TypeError (str + int). Logged to app.log.", is_error=True)
         self.refresh_logs()
 
     def _trigger_custom_db_error(self):
-        try:
-            raise scenarios.DatabaseConnectionError("Postgres server on replica-cluster-03 timed out after 30s")
-        except scenarios.DatabaseConnectionError as exc:
-            self.logger_mgr.log_exception(exc, user_message="Custom Business Logic Exception: Database Outage")
-            self._set_status("Triggered custom DatabaseConnectionError. Logged to app.log.", is_error=True)
+        scenarios.run_decorator_scenario()
+        self._set_status("Triggered @log_exceptions decorator fallback. Logged to app.log.", is_error=True)
         self.refresh_logs()
 
     def _trigger_uncaught_exception(self):
+        scenarios.run_context_manager_scenario()
+        self._set_status("Triggered ErrorContext selective suppression. Recorded in app.log.", is_error=True)
+        self.refresh_logs()
         """Simulates an unhandled exception in a worker thread to trigger threading.excepthook."""
         def faulty_worker():
             raise RuntimeError("Fatal unhandled runtime exception triggered from background worker thread!")
