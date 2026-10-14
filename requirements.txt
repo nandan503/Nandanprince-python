@@ -2,5 +2,6 @@
 # =================================
 # Core application & CLI are built 100% using Python's standard library.
 #
-# Web Dashboard dependency:
+# Web Dashboard & Production Server dependencies:
 Flask>=3.0.0
+gunicorn>=21.0.0
